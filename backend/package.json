@@ -1,0 +1,12 @@
+{
+  "name": "master-phones-backend",
+  "version": "1.0.0",
+  "description": "This backend project uses NodeJs and express to comunicate with db and frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["crud", "javascript", "node"],
+  "author": "Pedro Abreu",
+  "license": "MIT"
+}
