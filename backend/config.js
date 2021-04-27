@@ -16,7 +16,7 @@ module.exports = {
   port: PORT,
   host: HOST,
   url: HOST_URL,
-  firebaseConfig = {
+  firebaseConfig: {
     apiKey: API_KEY,
     authDomain: AUTH_DOMAIN,
     projectId: PROJECT_ID,
