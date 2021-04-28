@@ -63,8 +63,35 @@ const getOneProduct = async (request, response) => {
   }
 }
 
+const updateProduct = async (request, response) => {
+  try {
+    const id = request.params.id
+    const data = request.body
+    const product = await firestore.collection('products').doc(id)
+    await product.update(data)
+
+    response.send("Produto alterado com sucesso!")
+
+  } catch (error) {
+    response.status(400).send(error.message)
+  }
+}
+
+const deleteProduct = async (request, response) => {
+  try {
+    const id = request.params.id
+    await firestore.collection('products').doc(id).delete()
+
+    response.send("Produto apagado com sucesso!")
+  } catch (error) {
+    response.status(400).send(error.message)
+  }
+}
+
 module.exports = {
   addNewProduct,
   getAllProducts,
-  getOneProduct
+  getOneProduct,
+  updateProduct,
+  deleteProduct
 }
