@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import Home from './pages/Home'
 import ViewProducts from './pages/ViewProducts'
+import ManageProducts from './pages/ManageProducts'
 
 export default function Routes() {
   return (
@@ -10,6 +11,7 @@ export default function Routes() {
       <Switch>
         <Route path="/" exact component={Home}/>
         <Route path="/produtos" component={ViewProducts}/>
+        <Route path="/gerenciar" component={ManageProducts}/>
       </Switch>
     </div>
   )
