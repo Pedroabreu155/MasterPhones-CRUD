@@ -8,3 +8,5 @@ class Product {
     this.isFiveG = isFiveG
   }
 }
+
+module.exports = Product
