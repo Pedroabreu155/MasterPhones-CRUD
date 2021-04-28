@@ -3,6 +3,10 @@
 ### Frontend ###
 - Decidi usar o typescript somente no frontend junto com o ReactJS
 - Para estilização do frontent estarei usando o React-bootsrap
+- Decidi usar o axios para fazer as requisições ao invés de utilizar a fetch API padrão do browser:
+ - Legibilidade e Organização do código
+ - A fetch API não é suportada por todos os navegadores
+ - Sintaxe mais intuítiva de trabalhar
 
 ### Backend ###
 - Usei o nodemon para ajudar na produtividade
