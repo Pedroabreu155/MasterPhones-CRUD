@@ -27,7 +27,6 @@ export default function ManageProducts() {
 
   const [showViewerModal, setShowViewerModal] = useState(false);
 
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [productModel, setProductModel] = useState<IProduct>({
     id: '',
@@ -74,25 +73,24 @@ export default function ManageProducts() {
 
   }
 
-  function handleCloseDeleteModal(){
-    setShowDeleteModal(false)
-  }
 
-  function handleShowDeleteModal(id: string){
-    const idToBeDeleted = id
-    setShowDeleteModal(true)
-
-    return idToBeDeleted
-  }
 
   async function loadTableWithData(){
-    const response = await api.get('/products')
-    // console.log(response)
-    setAllProducts(response.data)
+
+      // recebe sempre 200, porém se não tiver nada no DB recebe 200 e um array vazio
+      const response = await api.get('/products')
+      // console.log(response)
+      setAllProducts(response.data)
+
   }
 
+  async function deleteProduct(id: string){
 
-  async function deleteProduct(){
+
+    await api.delete(`/delete-product/${id}`)
+    loadTableWithData()
+      
+    
 
   }
 
@@ -161,7 +159,7 @@ export default function ManageProducts() {
                   </Modal>
                   
                   <Button onClick={() => editProduct(product.id)} className="mr-2" size="sm" variant="warning">Editar</Button>
-                  <Button onClick={() => handleShowDeleteModal(product.id)} className="mr-2" size="sm" variant="danger">Excluir</Button>
+                  <Button onClick={() => deleteProduct(product.id)} className="mr-2" size="sm" variant="danger">Excluir</Button>
                 </td>
             </tr>
             ))}

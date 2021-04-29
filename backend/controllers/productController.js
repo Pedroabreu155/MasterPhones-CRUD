@@ -23,7 +23,8 @@ const getAllProducts = async (request, response) => {
     const allproducts = []
 
     if(data.empty){
-      response.status(404).send("Nenhum produto cadastrado!")
+      //tratando erro de não retornar nada, assim não quebra o front
+      response.status(200).send([])
     } else{
       data.forEach(doc => {
         const product = new Product(
