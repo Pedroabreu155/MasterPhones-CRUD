@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import { Table, Badge, Button } from 'react-bootstrap'
+import { useHistory, Link } from 'react-router-dom'
 import api from '../../services/api'
 
 
@@ -30,11 +31,21 @@ export default function ViewProducts() {
   }
 
 
+  const history = useHistory()
+
+  function goHome(){
+    history.push('/')
+  }
+
 
   return (
     <div className="container manage-products">
         <br/>
         <h1>Lista de Produtos Cadastrados</h1>
+        <br/>
+        <div className="page-header">
+          <Link to="/"><Button onClick={goHome} className="add-productBtn" variant="warning">Voltar para Home</Button></Link>
+        </div>
         <br/>
         <Table className="text-center" striped bordered hover variant="dark">
           <thead>

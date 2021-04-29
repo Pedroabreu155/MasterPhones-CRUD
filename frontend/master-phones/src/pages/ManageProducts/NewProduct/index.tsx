@@ -1,5 +1,6 @@
 import React, { useState, useEffect, ChangeEvent} from 'react'
 import { Badge, Button, Form, Table } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import '../ManageProducts.css'
 import './NewProduct.css'
 import api from '../../../services/api'
@@ -45,6 +46,12 @@ export default function NewProduct() {
     
   }
 
+  const history = useHistory()
+
+  function returnToDashboard(){
+    history.goBack()
+  }
+
   return (
 
       <div className="container manage-products">
@@ -52,7 +59,7 @@ export default function NewProduct() {
         <h1>Adicionar Novo Produto</h1>
         <br/>
         <div className="page-header">
-          <Button className="add-productBtn" variant="warning">Voltar ao Painel</Button>
+          <Button className="add-productBtn" onClick={returnToDashboard} variant="warning">Voltar ao Painel</Button>
         </div>
         <br/>
 

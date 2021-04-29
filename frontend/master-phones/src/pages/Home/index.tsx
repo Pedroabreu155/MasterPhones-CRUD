@@ -1,9 +1,17 @@
 import React from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import './Home.css'
 
 export default function Home() {
+
+  const history = useHistory()
+
+  function viewProducts(){
+    history.push('/produtos')
+  }
+
   return (
     <>
     <div className="container first-box-form">
@@ -28,7 +36,7 @@ export default function Home() {
     <hr style={{width: "45%"}}/>
     <div className="container second-box-form">
       <h4 className="subtitle-form">Visualizar os Produtos</h4>
-      <Link to="/produtos"><Button className="login-btn" variant="dark">Ver Produtos</Button></Link>
+      <Link to="/produtos"><Button onClick={viewProducts} className="login-btn" variant="dark">Ver Produtos</Button></Link>
     </div>
     </>
   )
