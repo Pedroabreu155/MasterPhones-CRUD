@@ -1,0 +1,17 @@
+.first-box-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.second-box-form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.subtitle-form{
+  margin-bottom: 2rem;
+}
