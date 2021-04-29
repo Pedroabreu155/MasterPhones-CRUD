@@ -3,6 +3,18 @@ body{
 }
 
 .manage-products h1{
-  text-align: center;
-  color: black;
+    text-align: center;
+    color: black;
+}
+
+
+
+.page-header{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add-productBtn{
+  font-weight: bold;
 }

@@ -1,0 +1,23 @@
+  .box-form{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 35%;
+  
+
+}
+
+.box-form input[type = "text"]{
+  text-align: left;
+  width: 175%;
+}
+
+.box-form Button{
+  width: 50%;
+}
+
+.Btn-addProduct{
+  margin-bottom: 2rem;
+  margin-top: 1rem;
+}

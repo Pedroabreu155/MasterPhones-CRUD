@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react'
 import { Badge, Button, Table } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import './ManageProducts.css'
 import api from '../../services/api'
 
@@ -19,6 +20,7 @@ export default function ManageProducts() {
                                                 //typing the variable
   const [allProducts, setAllProducts] = useState<IProduct[]>([])
 
+  const history = useHistory()
 
   useEffect(() => {
     loadTableWithData()
@@ -31,12 +33,21 @@ export default function ManageProducts() {
     setAllProducts(response.data)
   }
 
+  function newProduct(){
+    history.push('/new-product')
+  }
+
   return (
 
       <div className="container manage-products">
         <br/>
         <h1>Painel de Gerenciamento</h1>
         <br/>
+        <div className="page-header">
+          <Button onClick={newProduct} className="add-productBtn" variant="warning">Adicionar Produto</Button>
+        </div>
+        <br/>
+        
         <Table className="text-center" striped bordered hover variant="dark">
           <thead>
             <tr>
@@ -53,8 +64,8 @@ export default function ManageProducts() {
               <tr key={product.id}>
                 <td>{product.brand}</td>
                 <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.gigabytes}</td>
+                <td>R$ {product.price}</td>
+                <td>{product.gigabytes} GB</td>
                 <td>
                   <Badge variant={ product.isFiveG ? "success" : "secondary"}>
                     { product.isFiveG ? "Suporta" : "Não Suporta"}</Badge>

@@ -4,6 +4,7 @@ import { Switch, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import ViewProducts from './pages/ViewProducts'
 import ManageProducts from './pages/ManageProducts'
+import NewProduct from './pages/ManageProducts/NewProduct'
 
 export default function Routes() {
   return (
@@ -12,6 +13,7 @@ export default function Routes() {
         <Route path="/" exact component={Home}/>
         <Route path="/produtos" exact component={ViewProducts}/>
         <Route path="/gerenciar" exact component={ManageProducts}/>
+        <Route path="/new-product" exact component={NewProduct}/>
       </Switch>
     </div>
   )

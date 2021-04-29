@@ -52,8 +52,8 @@ export default function ViewProducts() {
               <tr key={product.id}>
                 <td>{product.brand}</td>
                 <td>{product.name}</td>
-                <td>{product.price}</td>
-                <td>{product.gigabytes}</td>
+                <td>R$ {product.price}</td>
+                <td>{product.gigabytes} GB</td>
                 <td>
                   <Badge variant={ product.isFiveG ? "success" : "secondary"}>
                     { product.isFiveG ? "Suporta" : "Não Suporta"}</Badge>
