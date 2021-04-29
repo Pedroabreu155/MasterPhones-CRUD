@@ -29,6 +29,7 @@ const getAllProducts = async (request, response) => {
         const product = new Product(
           doc.id,
           doc.data().name,
+          doc.data().brand,
           doc.data().price,
           doc.data().gigabytes,
           doc.data().isFiveG

@@ -6,6 +6,8 @@ import api from '../../services/api'
 
 export default function ManageProducts() {
 
+  const [allProducts, setAllProducts] = useState([])
+
   useEffect(() => {
     loadTableWithData()
   }, [])
@@ -14,7 +16,11 @@ export default function ManageProducts() {
   async function loadTableWithData(){
 
     const response = await api.get('/products')
-    console.log(response)
+    // console.log(response)
+
+    setAllProducts(response.data)
+
+
 
   }
 

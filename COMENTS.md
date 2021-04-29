@@ -15,4 +15,4 @@
 
 ### Database ###
 - Modelo de produto projetado pro banco: 
-  - Produto:{__id__, __nome__: string, __preço__: string, __gigabytes__: number, __5g__: boolean}
+  - Produto:{__id__, __marca__: string, __nome__: string, __preço__: string, __gigabytes__: number, __5g__: boolean}
