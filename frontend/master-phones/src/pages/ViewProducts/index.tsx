@@ -9,7 +9,7 @@ interface IProduct {
   name: string;
   price: string;
   gigabytes: number;
-  isFiveG: boolean;
+  isFiveG: string;
 
 }
 
@@ -55,8 +55,8 @@ export default function ViewProducts() {
                 <td>R$ {product.price}</td>
                 <td>{product.gigabytes} GB</td>
                 <td>
-                  <Badge variant={ product.isFiveG ? "success" : "secondary"}>
-                    { product.isFiveG ? "Suporta" : "Não Suporta"}</Badge>
+                  <Badge variant={ product.isFiveG === "on" ? "success" : "secondary"}>
+                    { product.isFiveG === "on" ? "Suporta" : "Não Suporta"}</Badge>
                 </td>
                 <td>
                   <Button className="mr-2" size="sm" variant="info">Ver</Button>
