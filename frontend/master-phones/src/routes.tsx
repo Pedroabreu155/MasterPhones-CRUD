@@ -10,8 +10,8 @@ export default function Routes() {
     <div>
       <Switch>
         <Route path="/" exact component={Home}/>
-        <Route path="/produtos" component={ViewProducts}/>
-        <Route path="/gerenciar" component={ManageProducts}/>
+        <Route path="/produtos" exact component={ViewProducts}/>
+        <Route path="/gerenciar" exact component={ManageProducts}/>
       </Switch>
     </div>
   )

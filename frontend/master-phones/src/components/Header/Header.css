@@ -1,0 +1,22 @@
+.header{
+  display: flex;
+  align-items: center;
+
+
+  height: 80px;
+  width: 100%;
+
+  background-color: rgb(110, 45, 170);
+
+  padding: 1rem;
+}
+
+.logo{
+  color: black;
+  font-size: 2.75rem;
+  margin-left: 1.5rem;
+}
+
+.logo-image{
+  width: 50px;
+}

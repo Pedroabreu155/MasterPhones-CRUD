@@ -1,5 +1,4 @@
 
-const { response } = require('express')
 const firebase = require('../dataBase')
 const Product = require("../models/product")
 
