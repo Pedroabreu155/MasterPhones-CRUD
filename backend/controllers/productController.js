@@ -28,8 +28,8 @@ const getAllProducts = async (request, response) => {
       data.forEach(doc => {
         const product = new Product(
           doc.id,
-          doc.data().name,
           doc.data().brand,
+          doc.data().name,
           doc.data().price,
           doc.data().gigabytes,
           doc.data().isFiveG
