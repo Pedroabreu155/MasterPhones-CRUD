@@ -1,13 +1,16 @@
 import React, { useState, useEffect} from 'react'
-import { Table, Badge, Button } from 'react-bootstrap'
+import { Table, Badge, Button, Modal, ModalDialog } from 'react-bootstrap'
 import { useHistory, Link } from 'react-router-dom'
 import api from '../../services/api'
+
+import './ViewProducts.css'
 
 
 interface IProduct {
   id: string;
   brand: string;
   name: string;
+  imageURL: string;
   price: string;
   gigabytes: number;
   isFiveG: string;
@@ -16,7 +19,45 @@ interface IProduct {
 
 export default function ViewProducts() {
 
+  const [showModal, setShowModal] = useState(false);
+
+  function handleCloseModal(){
+    setShowModal(false)
+  }
+  function handleShowModal(){
+    setShowModal(true)
+  }
+
+
   const [allProducts, setAllProducts] = useState<IProduct[]>([])
+
+  const [productModel, setProductModel] = useState<IProduct>({
+    id: '',
+    brand: '',
+    name: '',
+    imageURL: '',
+    price: '',
+    gigabytes: 0,
+    isFiveG: 'Suporta'
+  })
+
+  async function loadOneProduct(id: string){
+    const response = await api.get(`/product/${id}`)
+    
+    setProductModel({
+      id: response.data.id,
+      brand: response.data.brand,
+      name: response.data.name,
+      imageURL: response.data.imageURL,
+      price: response.data.price,
+      gigabytes: response.data.gigabytes,
+      isFiveG: response.data.isFiveG,
+
+    })
+
+    handleShowModal()
+  }
+
 
 
   useEffect(() => {
@@ -60,6 +101,7 @@ export default function ViewProducts() {
           </thead>
           <tbody>
             {allProducts.map(product => (
+              <>
               <tr key={product.id}>
                 <td>{product.brand}</td>
                 <td>{product.name}</td>
@@ -70,9 +112,26 @@ export default function ViewProducts() {
                     { product.isFiveG === "Suporta" ? "Suporta" : "Não Suporta"}</Badge>
                 </td>
                 <td>
-                  <Button className="mr-2" size="sm" variant="info">Ver</Button>
+                  <Button onClick={() => loadOneProduct(product.id)} className="mr-2" size="sm" variant="info">Ver</Button>
+                  <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header>
+                      <Modal.Title>{productModel.name}</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                      <img className="modal-image" src={productModel.imageURL}/>
+                      <h2>{productModel.brand}</h2>
+                      <h2>R$ {productModel.price}</h2>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleCloseModal}>Ok</Button>
+                    </Modal.Footer>
+                  </Modal>
                 </td>
             </tr>
+            </>
+
             ))}
             
           </tbody>

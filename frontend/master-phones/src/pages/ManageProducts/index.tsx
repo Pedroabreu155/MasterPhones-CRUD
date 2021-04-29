@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react'
-import { Badge, Button, Table } from 'react-bootstrap'
+import { Badge, Button, Modal, Table } from 'react-bootstrap'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import './ManageProducts.css'
 import api from '../../services/api'
@@ -9,6 +9,7 @@ interface IProduct {
   id: string;
   brand: string;
   name: string;
+  imageURL: string;
   price: string;
   gigabytes: number;
   isFiveG: string;
@@ -24,6 +25,35 @@ export default function ManageProducts() {
                                                 //typing the variable
   const [allProducts, setAllProducts] = useState<IProduct[]>([])
 
+  const [showModal, setShowModal] = useState(false);
+
+  const [productModel, setProductModel] = useState<IProduct>({
+    id: '',
+    brand: '',
+    name: '',
+    imageURL: '',
+    price: '',
+    gigabytes: 0,
+    isFiveG: 'Suporta'
+  })
+
+  async function loadOneProduct(id: string){
+    const response = await api.get(`/product/${id}`)
+    
+    setProductModel({
+      id: response.data.id,
+      brand: response.data.brand,
+      name: response.data.name,
+      imageURL: response.data.imageURL,
+      price: response.data.price,
+      gigabytes: response.data.gigabytes,
+      isFiveG: response.data.isFiveG,
+
+    })
+
+    handleShowModal()
+  }
+
   const history = useHistory()
 
   const { id } = useParams<IParams>()
@@ -31,6 +61,15 @@ export default function ManageProducts() {
   useEffect(() => {
     loadTableWithData()
   }, [])
+
+
+
+  function handleCloseModal(){
+    setShowModal(false)
+  }
+  function handleShowModal(){
+    setShowModal(true)
+  }
 
   async function loadTableWithData(){
     const response = await api.get('/products')
@@ -65,7 +104,6 @@ export default function ManageProducts() {
         <Table className="text-center" striped bordered hover variant="dark">
           <thead>
             <tr>
-              <th>ID</th>
               <th>Marca</th>
               <th>Produto</th>
               <th>Preço</th>
@@ -77,7 +115,6 @@ export default function ManageProducts() {
           <tbody>
             {allProducts.map(product => (
               <tr key={product.id}>
-                <td>{product.id}</td>
                 <td>{product.brand}</td>
                 <td>{product.name}</td>
                 <td>R$ {product.price}</td>
@@ -87,7 +124,23 @@ export default function ManageProducts() {
                     { product.isFiveG == "Suporta" ? "Suporta" : "Não Suporta"}</Badge>
                 </td>
                 <td>
-                  <Button className="mr-2" size="sm" variant="info">Ver</Button>
+                  <Button onClick={() => loadOneProduct(product.id)} className="mr-2" size="sm" variant="info">Ver</Button>
+                  <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header>
+                      <Modal.Title>{productModel.name}</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                      <img className="modal-image" src={productModel.imageURL}/>
+                      <h2>{productModel.brand}</h2>
+                      <h2>R$ {productModel.price}</h2>
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                      <Button variant="secondary" onClick={handleCloseModal}>Ok</Button>
+                    </Modal.Footer>
+                  </Modal>
+                  
                   <Button onClick={() => editProduct(product.id)} className="mr-2" size="sm" variant="warning">Editar</Button>
                   <Button className="mr-2" size="sm" variant="danger">Excluir</Button>
                 </td>
