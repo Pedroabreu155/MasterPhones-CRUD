@@ -2,6 +2,10 @@ import React from 'react'
 
 export default function ViewProducts() {
   return (
-    <h1> Página de Produtos</h1>
+    <div className="container">
+      <br/>
+      <h1> Página de Produtos</h1>
+      <br/>
+    </div>
   )
 }
