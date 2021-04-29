@@ -30,6 +30,7 @@ const getAllProducts = async (request, response) => {
           doc.id,
           doc.data().brand,
           doc.data().name,
+          doc.data().imageURL,
           doc.data().price,
           doc.data().gigabytes,
           doc.data().isFiveG
