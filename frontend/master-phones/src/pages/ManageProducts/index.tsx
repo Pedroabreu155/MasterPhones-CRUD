@@ -35,7 +35,7 @@ export default function ManageProducts() {
 
       <div className="container manage-products">
         <br/>
-        <h1>Gerenciar Produtos</h1>
+        <h1>Painel de Gerenciamento</h1>
         <br/>
         <Table className="text-center" striped bordered hover variant="dark">
           <thead>
