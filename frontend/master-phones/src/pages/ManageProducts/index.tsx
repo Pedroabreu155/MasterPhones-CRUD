@@ -25,7 +25,9 @@ export default function ManageProducts() {
                                                 //typing the variable
   const [allProducts, setAllProducts] = useState<IProduct[]>([])
 
-  const [showModal, setShowModal] = useState(false);
+  const [showViewerModal, setShowViewerModal] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   const [productModel, setProductModel] = useState<IProduct>({
     id: '',
@@ -36,6 +38,14 @@ export default function ManageProducts() {
     gigabytes: 0,
     isFiveG: 'Suporta'
   })
+
+  const history = useHistory()
+
+  const { id } = useParams<IParams>()
+
+  useEffect(() => {
+    loadTableWithData()
+  }, [])
 
   async function loadOneProduct(id: string){
     const response = await api.get(`/product/${id}`)
@@ -51,24 +61,28 @@ export default function ManageProducts() {
 
     })
 
-    handleShowModal()
+    handleShowViewerModal()
   }
 
-  const history = useHistory()
 
-  const { id } = useParams<IParams>()
-
-  useEffect(() => {
-    loadTableWithData()
-  }, [])
-
-
-
-  function handleCloseModal(){
-    setShowModal(false)
+  function handleCloseViewerModal(){
+    setShowViewerModal(false)
   }
-  function handleShowModal(){
-    setShowModal(true)
+
+  function handleShowViewerModal(){
+    setShowViewerModal(true)
+
+  }
+
+  function handleCloseDeleteModal(){
+    setShowDeleteModal(false)
+  }
+
+  function handleShowDeleteModal(id: string){
+    const idToBeDeleted = id
+    setShowDeleteModal(true)
+
+    return idToBeDeleted
   }
 
   async function loadTableWithData(){
@@ -78,6 +92,9 @@ export default function ManageProducts() {
   }
 
 
+  async function deleteProduct(){
+
+  }
 
 
   function newProduct(){
@@ -125,7 +142,7 @@ export default function ManageProducts() {
                 </td>
                 <td>
                   <Button onClick={() => loadOneProduct(product.id)} className="mr-2" size="sm" variant="info">Ver</Button>
-                  <Modal show={showModal} onHide={handleCloseModal}>
+                  <Modal show={showViewerModal} onHide={handleCloseViewerModal}>
                     <Modal.Header>
                       <Modal.Title>{productModel.name}</Modal.Title>
                     </Modal.Header>
@@ -134,15 +151,17 @@ export default function ManageProducts() {
                       <img className="modal-image" src={productModel.imageURL}/>
                       <h2>{productModel.brand}</h2>
                       <h2>R$ {productModel.price}</h2>
+                      <Badge variant={ productModel.isFiveG === "Suporta" ? "success" : "secondary"}>
+                        { productModel.isFiveG === "Suporta" ? "Suporta 5G" : "Não Suporta 5G"}</Badge>
                     </Modal.Body>
 
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>Ok</Button>
+                      <Button variant="primary" onClick={handleCloseViewerModal}>Ok</Button>
                     </Modal.Footer>
                   </Modal>
                   
                   <Button onClick={() => editProduct(product.id)} className="mr-2" size="sm" variant="warning">Editar</Button>
-                  <Button className="mr-2" size="sm" variant="danger">Excluir</Button>
+                  <Button onClick={() => handleShowDeleteModal(product.id)} className="mr-2" size="sm" variant="danger">Excluir</Button>
                 </td>
             </tr>
             ))}

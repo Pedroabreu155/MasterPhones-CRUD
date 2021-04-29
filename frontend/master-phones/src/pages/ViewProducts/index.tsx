@@ -122,10 +122,12 @@ export default function ViewProducts() {
                       <img className="modal-image" src={productModel.imageURL}/>
                       <h2>{productModel.brand}</h2>
                       <h2>R$ {productModel.price}</h2>
+                      <Badge variant={ productModel.isFiveG === "Suporta" ? "success" : "secondary"}>
+                        { productModel.isFiveG === "Suporta" ? "Suporta 5G" : "Não Suporta 5G"}</Badge>
                     </Modal.Body>
 
                     <Modal.Footer>
-                      <Button variant="secondary" onClick={handleCloseModal}>Ok</Button>
+                      <Button variant="primary" onClick={handleCloseModal}>Ok</Button>
                     </Modal.Footer>
                   </Modal>
                 </td>
