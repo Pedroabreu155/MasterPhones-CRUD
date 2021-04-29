@@ -1,3 +1,8 @@
+body{
+  background-color: rgba(148, 108, 185, 0.726);
+}
+
 .manage-products h1{
   text-align: center;
+  color: black;
 }
