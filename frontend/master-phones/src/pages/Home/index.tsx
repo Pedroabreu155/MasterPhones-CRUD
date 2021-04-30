@@ -1,10 +1,35 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
+import fire from '../../firebase/firebaseAuth'
 import './Home.css'
 
+
+
 export default function Home() {
+
+  const [email, setEmail] = useState('')
+  const [password, setpassword] = useState('')
+
+  useEffect(() => {
+    handleLogin("pedro@email.com", "147258369")
+  }, [])
+
+  function handleLogin(email: string, password: string){
+
+
+    let auth = fire.auth()
+    auth.signInWithEmailAndPassword(email, password)
+    
+    auth.onAuthStateChanged(user => {
+      if(user){
+        console.log("Usuário logado!")
+      } else{
+        console.log("Ninguém está logado!")
+      }
+    })
+  }
 
   const history = useHistory()
 
