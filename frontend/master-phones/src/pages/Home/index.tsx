@@ -1,3 +1,4 @@
+import { type } from 'node:os'
 import React, { useState, useEffect } from 'react'
 import { Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
@@ -9,33 +10,65 @@ import './Home.css'
 
 export default function Home() {
 
+  const [user, setUser] = useState({})
   const [email, setEmail] = useState('')
-  const [password, setpassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [password, setPassword] = useState('')
+  const [passwordError, setPasswordError] = useState('')
 
-  useEffect(() => {
-    handleLogin("pedro@email.com", "147258369")
-  }, [])
+  function clearInputs(){
+    setEmail('')
+    setPassword('')
+  }
 
-  function handleLogin(email: string, password: string){
+  function clearErrors(){
+    setEmailError('')
+    setPasswordError('')
+  }
 
+  async function handleLogin(){
+    clearErrors()
+    await fire.auth().signInWithEmailAndPassword(email, password)
+    .catch((error) => {
+      switch(error.code){
+        case "auth/invalid-email":
+        case "auth/user-disabled":
+        case "auth/user-not-found":
+          setEmailError(error.message)
+          break;
+        
+        case "auth/wrong-password":
+          setPasswordError(error.message)
+          break;
+      }
+    })
 
-    let auth = fire.auth()
-    auth.signInWithEmailAndPassword(email, password)
-    
-    auth.onAuthStateChanged(user => {
+    // fire.auth().onAuthStateChanged(user => {
+    //   console.log(typeof user)
+    // })
+  }
+
+  function authenticateListenner(){
+    fire.auth().onAuthStateChanged(user => {
       if(user){
-        console.log("Usuário logado!")
+        clearInputs()
+        setUser(user)
       } else{
-        console.log("Ninguém está logado!")
+        setUser({})
       }
     })
   }
+
+  useEffect(() => {
+    authenticateListenner()
+  }, [])
 
   const history = useHistory()
 
   function viewProducts(){
     history.push('/produtos')
   }
+
 
   return (
     <>
@@ -45,15 +78,26 @@ export default function Home() {
         <h4 className="subtitle-form">Faça Login para Gerenciar os protudos</h4>
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
-          <Form.Control type="email" placeholder="Digite seu Email"/>
+          <Form.Control
+          value={email}
+          onChange={event => setEmail(event.target.value)} 
+          type="email" placeholder="Digite seu Email"/>
+          <p>{emailError}</p>
         </Form.Group>
 
         <Form.Group controlId="Senha">
           <Form.Label>Senha</Form.Label>
-          <Form.Control type="password" placeholder="Digite sua Senha" />
+          <Form.Control
+          required 
+          value={password}
+          onChange={event => setPassword(event.target.value)}
+          type="password" placeholder="Digite sua Senha" />
+          <p>{passwordError}</p>
         </Form.Group>
         <div className="btn-form-div">
-          <Link to="/gerenciar"><Button className="login-btn" variant="dark">Gerenciar Produtos</Button></Link>
+          <Link to={
+            user ? "/gerenciar" : "/"
+          }><Button onClick={handleLogin} className="login-btn" variant="dark">Gerenciar Produtos</Button></Link>
         </div>
       </Form>
       <br/>
