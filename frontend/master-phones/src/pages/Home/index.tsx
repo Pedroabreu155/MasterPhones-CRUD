@@ -4,6 +4,7 @@ import { Button, Form } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import fire from '../../firebase/firebaseAuth'
+import firebase from 'firebase'
 import './Home.css'
 
 
@@ -29,6 +30,8 @@ export default function Home() {
   async function handleLogin(){
     let auth = fire.auth()
 
+    auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
+
     clearErrors()
     await auth.signInWithEmailAndPassword(email, password)
     .catch((error) => {
@@ -50,9 +53,13 @@ export default function Home() {
         clearInputs()
         setIsAuthenticated(true)
         console.log("Usuário logado!")
+        setEmail('')
+        setPassword('')
       } else{
         setIsAuthenticated(false)
         console.log("Ninguém está logado!")
+        setEmail('')
+        setPassword('')
       }
     })
 
@@ -91,8 +98,17 @@ export default function Home() {
           <p>{passwordError}</p>
         </Form.Group>
         <div className="btn-form-div">
-          <Link to={isAuthenticated ? "/gerenciar" : "/"}><Button onClick={handleLogin} className="login-btn" variant="dark">Gerenciar Produtos</Button></Link>
+          <Button onClick={handleLogin} className="login-btn" variant="dark">Autenticar</Button>
         </div>
+        {
+          isAuthenticated ? (
+            <>
+            <br/>
+            <Link to="/gerenciar"><Button className="login-btn" variant="dark">Gerenciar</Button></Link>
+            </>
+          ) : <div></div>
+        }
+        
       </Form>
       <br/>
     </div>
