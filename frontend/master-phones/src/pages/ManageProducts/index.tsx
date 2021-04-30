@@ -2,6 +2,7 @@ import React, { useState, useEffect} from 'react'
 import { Badge, Button, Modal, Table } from 'react-bootstrap'
 import { useHistory, useParams, Link } from 'react-router-dom'
 import './ManageProducts.css'
+import fire from '../../firebase/firebaseAuth'
 import api from '../../services/api'
 
 
@@ -44,6 +45,12 @@ export default function ManageProducts() {
 
   useEffect(() => {
     loadTableWithData()
+  }, [])
+
+  useEffect(() => {
+    fire.auth().signOut().then(() => console.log("Usuário saiu!")).catch(err => {
+      console.log(err)
+    })
   }, [])
 
   async function loadOneProduct(id: string){
