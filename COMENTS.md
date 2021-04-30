@@ -13,10 +13,11 @@
 - Usei o nodemon para ajudar na produtividade
 - O cors foi usado para dar acesso a api
 - Vou tentar seguir um padrão aproximado do MVC, com a View sendo o frontend
+- A API retorna 200 no status do HTTP para que o Frontend(client) possa manter as funções trabalhando
 
 ### Database ###
 - Modelo de produto projetado pro banco: 
-  - Produto:{__id__, __marca__: string, __nome__: string, __imagem__: string, __preço__: string, __gigabytes__: number, __5g__: boolean}
+  - Produto:{__id__, __marca__: string, __nome__: string, __imagem__: string, __preço__: string, __gigabytes__: number, __5g__: string}
 
 - A security rule adota foi:
   - Usuários autenticados podem alterar dados
