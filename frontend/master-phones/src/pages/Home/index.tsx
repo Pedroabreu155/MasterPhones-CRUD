@@ -10,7 +10,7 @@ import './Home.css'
 
 export default function Home() {
 
-  const [user, setUser] = useState({})
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
   const [password, setPassword] = useState('')
@@ -27,8 +27,10 @@ export default function Home() {
   }
 
   async function handleLogin(){
+    let auth = fire.auth()
+
     clearErrors()
-    await fire.auth().signInWithEmailAndPassword(email, password)
+    await auth.signInWithEmailAndPassword(email, password)
     .catch((error) => {
       switch(error.code){
         case "auth/invalid-email":
@@ -43,25 +45,18 @@ export default function Home() {
       }
     })
 
-    // fire.auth().onAuthStateChanged(user => {
-    //   console.log(typeof user)
-    // })
-  }
-
-  function authenticateListenner(){
-    fire.auth().onAuthStateChanged(user => {
+    await auth.onAuthStateChanged(user => {
       if(user){
         clearInputs()
-        setUser(user)
+        setIsAuthenticated(true)
+        console.log("Usuário logado!")
       } else{
-        setUser({})
+        setIsAuthenticated(false)
+        console.log("Ninguém está logado!")
       }
     })
-  }
 
-  useEffect(() => {
-    authenticateListenner()
-  }, [])
+  }
 
   const history = useHistory()
 
@@ -79,6 +74,7 @@ export default function Home() {
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control
+          required
           value={email}
           onChange={event => setEmail(event.target.value)} 
           type="email" placeholder="Digite seu Email"/>
@@ -88,16 +84,14 @@ export default function Home() {
         <Form.Group controlId="Senha">
           <Form.Label>Senha</Form.Label>
           <Form.Control
-          required 
+          required
           value={password}
           onChange={event => setPassword(event.target.value)}
           type="password" placeholder="Digite sua Senha" />
           <p>{passwordError}</p>
         </Form.Group>
         <div className="btn-form-div">
-          <Link to={
-            user ? "/gerenciar" : "/"
-          }><Button onClick={handleLogin} className="login-btn" variant="dark">Gerenciar Produtos</Button></Link>
+          <Link to={isAuthenticated ? "/gerenciar" : "/"}><Button onClick={handleLogin} className="login-btn" variant="dark">Gerenciar Produtos</Button></Link>
         </div>
       </Form>
       <br/>
